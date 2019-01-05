@@ -1,6 +1,6 @@
 import requests
 import json
-from issuetracker.credentials import JIRA_USERNAME, JIRA_PASSWORD
+from common.credentials import JIRA_USERNAME, JIRA_PASSWORD
 from jira.client import JIRA
 
 BASE_URL = 'https://mpulsemobile.atlassian.net/rest/api/2/issue/'
@@ -22,5 +22,19 @@ options = {
 jira = JIRA(options, basic_auth=(JIRA_USERNAME, JIRA_PASSWORD))
 
 projects = jira.projects()
-issue = jira.issue('INF-119')
+issue = jira.issue('MSXDEV-9577')
 print(json.dumps(issue.raw))
+
+
+
+
+# issue_dict = {
+# 	'project': {'id': 123},
+# 	'summary': 'New issue from jira-python',
+# 	'description': 'Look into this one',
+# 	'issuetype': {'name': 'Bug'},
+# }
+# new_issue = jira.create_issue(fields=issue_dict)
+
+
+
