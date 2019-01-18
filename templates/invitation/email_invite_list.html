@@ -1,0 +1,41 @@
+{% extends 'invitation/email_invite_base.html' %}
+
+{% block invite_content %}
+
+    <div class="container">
+        <div class="row valign change-form">
+            <h4>Email Invitation List</h4>
+            <div class="col s12 m8 offset-m2 l12 offset-l0">
+                <div class="card">
+                    {% if emailinvitation_list %}
+                        <table class="responsive-table">
+                            <thead>
+                            <tr>
+                                <th data-field="id">Email</th>
+                                <th data-field="price">Valid From</th>
+                                <th data-field="total">Valid To</th>
+                                <th data-field="status">Allow Registration</th>
+                                <th data-field="status">Status</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for emailinvitation in emailinvitation_list %}
+                                <tr>
+                                    <td><a href="#">{{ emailinvitation.email }}</a></td>
+                                    <td>{{emailinvitation.valid_from_date}}</td>
+                                    <td>{{emailinvitation.valid_to_date}}</td>
+                                    <td>{% if emailinvitation.registration_open %} <i class="material-icons dp48">done</i> {% endif %}</td>
+                                    <td>{{emailinvitation.get_registration_status_display}}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>There are no invitations.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

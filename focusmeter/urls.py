@@ -21,6 +21,9 @@ from django.contrib.auth.models import User
 from rest_framework import serializers, viewsets, routers
 
 # Serializers define the API representation.
+from deploy_ticket import urls as deploy_ticket_urls
+
+
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
@@ -41,8 +44,9 @@ router.register(r'users', UserViewSet)
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browsable API.
 urlpatterns = [
-    url(r'^', include(router.urls)),
-    path('admin/', admin.site.urls),
+    url(r'^', include((deploy_ticket_urls,'deploy_ticket'), namespace='deploy_ticket_home')),
+    path(r'admin/', admin.site.urls),
+    url(r'^deploy/', include((deploy_ticket_urls,'deploy_ticket'), namespace='deploy_ticket')),
     # url(r'^', include('jira.urls', namespace='jira', app_name='jira')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

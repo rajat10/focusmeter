@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load material_form %}
+
+{% block content %}
+<div class="container">
+    <div class="row valign change-form">
+        <div class="col s12 m8 offset-m2 l8 offset-l4">
+            <div id="loader_id" class="loader"></div>
+        </div>
+        <div class="col s12 m8 offset-m2 l8 offset-l2">
+            <div class="card">
+                <div id="myProgress">
+                    <div id="myBar"></div>
+                </div>
+            </div>
+            <p><small><p id="myProgressStatus"></p></small></p>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+
+{% block jquery_content %}
+<style>
+#myProgress {
+width: 100%;
+background-color: grey;
+}
+
+#myBar {
+width: 1%;
+height: 30px;
+background-color: green;
+}
+
+.loader {
+    border: 16px solid #f3f3f3; /* Light grey */
+    border-top: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    animation: spin 2s linear infinite;
+}
+
+.loader-complete {
+    /*border: 16px solid #f3f3f3; !* Light grey *!*/
+    border: 16px solid #3498db; /* Blue */
+    border-radius: 50%;
+    width: 300px;
+    height: 300px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>
+<script>
+
+    // function move(width) {
+    //     var elem = document.getElementById("myBar");
+    //     if(elem.style.width < width) {
+    //         if(width > 100){
+    //             width=100;
+    //         }
+    //         elem.style.width = width + '%';
+    //     }
+    // }
+
+    function update_status(width) {
+        var elem = document.getElementById("myBar");
+        if(elem.style.width < width) {
+            if(width > 100){
+                width=100;
+            }
+            elem.style.width = width + '%';
+        }
+    }
+
+
+    window.onload = function() {
+        var elem = document.getElementById("myBar");
+        var elem_loader = document.getElementById("loader_id");
+        var elem_progress_status = document.getElementById("myProgressStatus");
+        var status = 0;
+        var move_pointer = 1;
+        var update_status_count_for_dot = 0;
+        var width = 1;
+        var chk_sts_intrvl = setInterval(check_status, 1000);
+        var frame_intrval = setInterval(frame, 100);
+        var update_status_intrval = setInterval(update_status, 400);
+
+        function frame() {
+            if (width >= 100) {
+                clearInterval(frame_intrval);
+                elem_loader.classList.add("loader-complete");
+                elem_loader.classList.remove("loader");
+            } else if (width < move_pointer) {
+                width++;
+                elem.style.width = width + '%';
+            }
+        }
+
+        function update_status() {
+            if(status['pd_status']===7) {
+                clearInterval(update_status_intrval);
+                update_status_count_for_dot = 0;
+            }
+            else {
+                update_status_count_for_dot += 1;
+                update_status_count_for_dot = update_status_count_for_dot % 4;
+            }
+            if(status['pd_status_display'] != undefined){
+                elem_progress_status.textContent = status['pd_status_display'] + '.'.repeat(update_status_count_for_dot);
+            }
+        }
+
+        function check_status() {
+            if(status['pd_status']===7) {
+                clearInterval(chk_sts_intrvl)
+            }
+            else {
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        console.log(this.responseText);
+                        status = JSON.parse(this.responseText);
+                        console.log(status);
+                        move_pointer = status['pd_status'] * 17;
+                    }
+                };
+                xhttp.open("GET", "http://127.0.0.1:8000/pd-create-progress-check/2/", true);
+                xhttp.send();
+            }
+        }
+    };
+
+</script>
+
+{% endblock %}

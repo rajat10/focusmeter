@@ -1,0 +1,67 @@
+{% extends 'invitation/email_invite_base.html' %}
+{% load material_form %}
+
+{% block invite_content %}
+    <div class="container">
+        <div class="row valign change-form">
+            <div class="col s12 m8 offset-m2 l8 offset-l2">
+                <div class="card">
+
+                    <form method="POST">
+                        {% csrf_token %}
+
+                        <div class="card-content">
+                            <span class="card-title grey-text text-darken-2">Email Invitation</span>
+
+                            <div class="row">
+                                <div class="input-field col s12 required" id="id_email_container">
+                                    <i class="material-icons prefix">email</i>
+                                    {{ form.email }}
+                                    {{ form.email.label_tag }}
+                                    {{ form.email.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 required" id="id_about_container">
+                                    <i class="material-icons prefix">description</i>
+                                    {{ form.about }}
+                                    {{ form.about.label_tag }}
+                                    {{ form.about.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 required" id="id_valid_from_date_container">
+                                    <i class="material-icons prefix">timer</i>
+                                    {{ form.valid_from_date }}
+                                    {{ form.valid_from_date.label_tag }}
+                                    {{ form.valid_from_date.errors }}
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="input-field col s12 required" id="id_valid_to_date_container">
+                                    <i class="material-icons prefix">timer_off</i>
+                                    {{ form.valid_to_date }}
+                                    {{ form.valid_to_date.label_tag }}
+                                    {{ form.valid_to_date.errors }}
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="input-field col s12 required" id="id_registration_open_container">
+                                    {{ form.registration_open }}
+                                    {{ form.registration_open.label_tag }}
+                                    {{ form.registration_open.errors }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <div class="right-align">
+                                <button class="btn btn-primary pull-right" type="submit">Invite Email</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

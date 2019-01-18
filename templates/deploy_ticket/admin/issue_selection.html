@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load material_form %}
+
+{% block content %}
+<div class="container">
+    <div class="row valign change-form">
+        <div class="col s12 m8 offset-m2 l12 offset-l0">
+            <div class="card">
+                <form method="POST">
+                    {% csrf_token %}
+                    {% form %}
+                    {% part form.issues_selection label %}{% endpart %}
+                    {% part form.issues_selection columns %}3{% endpart %}
+                    {% endform %}
+                    <button type="submit" class="btn">Create Push Deployment Ticket</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

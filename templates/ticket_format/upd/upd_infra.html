@@ -1,0 +1,9 @@
+Please deploy the below build on *{{environment}}* :
+[{{wiki_link}}|{{wiki_link}}]
+\#Build *{{build_no}}*
+
+*+Order of execution:+*
+1. Stop all services
+2. Deploy as per {{deployment_type}} document on top.{% for db_script_ticket in db_script_tickets %}
+{{ forloop.counter|add:"2" }}. Execute : {{db_script_ticket.issue.issue_key}}{% endfor %}
+{{ end_counter }}. Start all services

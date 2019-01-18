@@ -1,5 +1,8 @@
 BASE_URL = 'https://mpulsemobile.atlassian.net'
 
+DATABASE_SCHEMA_CHANGE_CONFLUENCE_PAGE = 18546708
+
+CONFLUENCE_SPACE_FOR_PUSH_DEPLOYMENT_TICKET = 'TECH'
 
 sample_confluence_doc = """
 ACTUAL TOTAL Time to deploy: __ minutes.

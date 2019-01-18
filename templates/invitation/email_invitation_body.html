@@ -1,0 +1,10 @@
+<p>This is an <strong>important</strong> message.</p>
+<a href="{{ registration_link }}"> Click here <a> for registration.
+    You can visit <a href="{{ registration_link }}">{{ registration_link }}<a> And register using this link.
+        <p>
+            Please Note Your registration will be valid from <strong>{{ email_invite.valid_from_date }}</strong>
+            {% if email_invite.valid_to_date %}
+                 till <strong>{{ email_invite.valid_to_date }}</strong>
+            {% endif %}
+             for Email id :  <strong>{{ email_invite.email }}</strong>
+        <p>

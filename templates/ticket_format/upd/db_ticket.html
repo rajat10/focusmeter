@@ -1,0 +1,8 @@
+Please execute below queries (Related to {{sprint_key}}) in sequence on {{db}}:
+{% for note, splitted_db_query in db_queries %}
+{{forloop.counter}}. {% if note|length > 0 %}{{note}} : {% else %} Run this db script : {% endif %}
+{code}
+{% for db_query in splitted_db_query %}
+{% if db_query|length > 0 %}{{db_query}};{% endif %}{% endfor %}
+{code}
+{% endfor %}

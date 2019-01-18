@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load material_form %}
+
+{% block content %}
+<div class="container">
+    <div class="row valign change-form">
+        <h4>Push Deployment List</h4>
+        <div class="col s12 m8 offset-m2 l12 offset-l0">
+            <div class="card">
+                {% if pushdeployment_list %}
+                <table class="responsive-table">
+                    <thead>
+                    <tr>
+                        <th data-field="id">Final Ticket</th>
+                        <th data-field="id">Type</th>
+                        <th data-field="price">Status</th>
+                        <th data-field="price">Created By</th>
+                        <th data-field="price">Generated at</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for pushdeployment in pushdeployment_list %}
+                    <tr>
+                        <td>
+                            <a href="https://mpulsemobile.atlassian.net/browse/{{ pushdeployment.infra_ticket.first.issue_key }}" target="_blank">
+                                {{ pushdeployment.infra_ticket.first.issue_key }}
+                            </a>
+                        </td>
+                        <td>{{pushdeployment.get_type_display}}</td>
+                        <td>{{pushdeployment.get_status_display}}</td>
+                        <td>{{pushdeployment.created_by.email}}</td>
+                        <td>{{pushdeployment.created_at}}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <p>There are no Push deployment ticket yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

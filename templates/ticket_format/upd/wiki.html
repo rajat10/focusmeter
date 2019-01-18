@@ -1,0 +1,40 @@
+<p><br /></p><p><strong>TEST : ::::::::::::::::::::::::::::::: ACTUAL TOTAL Time to deploy</strong>: __ minutes.</p><hr /><p><strong>Scheduled Release Date</strong>: {{release_date}}<br /><strong>Scheduled Release Time</strong>: {{scheduled_release_time}}</p><p><strong>Scheduled Members Involved</strong>:<br />Pier 64</p><p>Mobilestorm</p><p><strong>Scheduled Maintenance window</strong>:</p><p>{{scheduled_maintainance_window}}</p><p><strong>Release</strong>: {{sprint_date}}</p>
+<p><strong>Summary of Tickets:</strong></p>
+<div class="table-wrap">
+    <table class="wrapped relative-table" style="width: 95.9302%;">
+        <colgroup><col style="width: 13.7901%;"/><col style="width: 86.2099%;"/></colgroup>
+        <tbody>
+        <tr><th colspan="2" class="confluenceTh">Stories</th></tr>
+        {% for ticket in ticket_summary %}
+        <tr><td colspan="1" class="confluenceTd">{{ticket.issue_key}}</td><td colspan="1" class="confluenceTd">{{ticket.issue_title}}</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<p><br /></p><div class="gmail_default"><div class="gmail_default"><strong style="line-height: 1.4285715;">Servers Involved on uat&nbsp;Environment:</strong></div></div>
+<ul>
+    <li>ms5uat-proxy-001</li>
+    <li>ms5uat-cpanel-001</li>
+    <li>ms5uat-queue-001</li>
+    <li>ms5uat-comm-001</li>
+    <li>ms5uat-celery-001</li>
+    <li>ms5uat-db-001</li>
+    <li>ms5uat-log-001</li>
+    <br /><br />
+</ul>
+<hr /><h4>uat Deployment Steps</h4><h6>1. Company announcement</h6><h6>2. Backup database (Pier 64)</h6><h6>3.&nbsp;Install (Pier 64)</h6><p><img class="emoticon emoticon-warning" title="(warning)" border="0" src="https://mpulsemobile.atlassian.net/wiki/s/-361091128/6452/83168cbb12727819c539f07dcd2887bdd0d00934/_/images/icons/emoticons/warning.png" alt="(warning)" />&nbsp;Assumption: Deploy runs on ms5uat-log-001, and from ms5uat-log-001&nbsp;user can ssh login to all the other machines.</p><ol><li><p>ssh login to ms5uat-log-001.</p></li><li>copy the following checksum and save to file &quot;/tmp/checksum&quot;<p><br /></p><ac:structured-macro ac:name="code" ac:schema-version="1" ac:macro-id="63781cf7-9b0f-4a52-8b6b-2e1a71a172bb"><ac:plain-text-body><![CDATA[sudo su - msx
+    cd /tmp
+    wget {{artifact_link}}]]></ac:plain-text-body></ac:structured-macro><p class="auto-cursor-target"><br /></p></li><li><p>install</p><ac:structured-macro ac:name="code" ac:schema-version="1" ac:macro-id="9e3d1085-e600-4bd7-9cb9-312c8e943b09"><ac:plain-text-body><![CDATA[sudo su - msx
+    cd /tmp
+    wget {{installation_file_link}}
+    chmod +x ./{{installation_file_name}}
+    ENV=uat ./{{installation_file_name}}]]></ac:plain-text-body></ac:structured-macro><p class="auto-cursor-target"><br /></p></li></ol><h6>4. Verify (Pier 64)</h6><ac:structured-macro ac:name="code" ac:schema-version="1" ac:macro-id="8ffcef13-257a-4d8e-862e-fe1c6670484f"><ac:plain-text-body><![CDATA[. /opt/msx/python-env/bin/activate
+    cd /tmp/deploy /{{artifact_file_name}}
+    ENV=uat fab -f deploy/deploy.py -u msx -i ~/.ssh/id_dsa status]]></ac:plain-text-body></ac:structured-macro><p><br /></p><p>Which should display:</p><ac:structured-macro ac:name="code" ac:schema-version="1" ac:macro-id="39a8504d-87fc-49a0-a7ea-78d27959fe14"><ac:plain-text-body><![CDATA[[msx-app-002.msxtra.com|msx-app-002.msxtra.com] out: celerybeat                       RUNNING    pid11064, uptime0:03:06
+    [msx-app-002.msxtra.com|msx-app-002.msxtra.com] out: celeryd                          RUNNING    pid11063, uptime0:03:06
+    [msx-app-002.msxtra.com|msx-app-002.msxtra.com] out: gateway                          RUNNING    pid11065, uptime0:03:06
+    [msx-app-002.msxtra.com|msx-app-002.msxtra.com] out: jetty                            RUNNING    pid11060, uptime0:03:06
+    [msx-app-002.msxtra.com|msx-app-002.msxtra.com] out: tornado                          RUNNING    pid11062, uptime0:03:06
+    [msx-app-002.msxtra.com|msx-app-002.msxtra.com] out: healthcare-gateway               RUNNING    pid27333, uptime0:03:06
+    [msx-app-002.msxtra.com|msx-app-002.msxtra.com] out: sms-gateway                      RUNNING    pid27332, uptime0:03:06
+    [msx-app-002.msxtra.com|msx-app-002.msxtra.com] out: celeryd-sms-gateway              RUNNING    pid20658, uptime0:03:06]]></ac:plain-text-body></ac:structured-macro><p><img class="emoticon emoticon-warning" title="(warning)" border="0" src="https://mpulsemobile.atlassian.net/wiki/s/-361091128/6452/83168cbb12727819c539f07dcd2887bdd0d00934/_/images/icons/emoticons/warning.png" alt="(warning)" />&nbsp;The output is not the real output, only for demonstrating the format of the output.</p><p><br /></p>

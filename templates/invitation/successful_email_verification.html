@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block navbar_content %} {% endblock %}
+{% block content %}
+    <div class="container">
+        <div class="row valign change-form">
+            <div class="col s12 m8 offset-m2 l8 offset-l2">
+                <div class="card">
+                    <strong>
+                        Your Account has been verified.
+                    </strong>
+                    <a href="{{ web_login_link }}">
+                        Click here to login
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
